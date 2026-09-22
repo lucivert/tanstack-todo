@@ -56,10 +56,9 @@ function RootLayout() {
     <div className="app-shell">
       <header className="hero">
         <p className="eyebrow">TanStack Start + TanStack DB</p>
-        <h1>Todo management with a future database seam</h1>
+        <h1>Todo management</h1>
         <p className="hero-copy">
-          Create, search, filter, edit, and delete todos through typed server
-          contracts while persisting locally with TanStack DB and localStorage.
+          Create, search, filter, edit, and delete todos
         </p>
       </header>
 
