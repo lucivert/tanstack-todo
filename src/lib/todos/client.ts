@@ -96,6 +96,7 @@ export function useTodoHydration(collection: TodoCollection = todoCollection) {
               ? error
               : new Error('Failed to load persisted todos.'),
           )
+          setIsHydrated(true)
         }
       })
 
