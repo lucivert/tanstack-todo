@@ -31,8 +31,10 @@ const noopStorageEvents = {
   removeEventListener: () => undefined,
 }
 
-function createRepositoryHarness(storageKey: string = crypto.randomUUID()) {
-  const storage = createMemoryStorage()
+function createRepositoryHarness(
+  storageKey: string = crypto.randomUUID(),
+  storage = createMemoryStorage(),
+) {
   const collection = createTodoCollection({
     storage,
     storageEventApi: noopStorageEvents,
@@ -97,6 +99,28 @@ describe('todo repository', () => {
     expect(await repository.getById(shippedTodo.id)).toBeUndefined()
     expect(await repository.list(parseTodoSearch({}))).toEqual([
       updatedPlanningTodo,
+    ])
+  })
+
+  it('restores persisted todos when a new collection uses the same storage key', async () => {
+    const sharedStorage = createMemoryStorage()
+    const firstHarness = createRepositoryHarness('persisted-state', sharedStorage)
+    const persistedTodo = buildCreateTodo(
+      { description: 'Persist between sessions' },
+      { id: 'persisted-todo', now: new Date('2026-09-22T18:46:00.000Z') },
+    )
+
+    await firstHarness.repository.save(persistedTodo)
+
+    const secondHarness = createRepositoryHarness('persisted-state', sharedStorage)
+
+    await secondHarness.collection.preload()
+
+    expect(await secondHarness.repository.getById(persistedTodo.id)).toEqual(
+      persistedTodo,
+    )
+    expect(await secondHarness.repository.list(parseTodoSearch({}))).toEqual([
+      persistedTodo,
     ])
   })
 

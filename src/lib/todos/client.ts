@@ -21,6 +21,7 @@ import type {
   TodoSearch,
   UpdateTodoInput,
 } from './schema'
+import type { TodoCollection } from './collection'
 import type { TodoRepository } from './repository'
 
 export async function listTodos(
@@ -73,13 +74,13 @@ export async function deleteTodo(
   return result
 }
 
-export function useTodoHydration() {
+export function useTodoHydration(collection: TodoCollection = todoCollection) {
   const [isHydrated, setIsHydrated] = useState(false)
 
   useEffect(() => {
     let isActive = true
 
-    void todoCollection.preload().finally(() => {
+    void collection.preload().finally(() => {
       if (isActive) {
         setIsHydrated(true)
       }
@@ -88,15 +89,18 @@ export function useTodoHydration() {
     return () => {
       isActive = false
     }
-  }, [])
+  }, [collection])
 
   return isHydrated
 }
 
-export function useTodos(filters: TodoSearch) {
+export function useTodos(
+  filters: TodoSearch,
+  collection: TodoCollection = todoCollection,
+) {
   const normalizedSearch = useMemo(() => parseTodoSearch(filters), [filters])
   const query = useLiveQuery({
-    query: (q) => q.from({ todo: todoCollection }),
+    query: (q) => q.from({ todo: collection }),
   })
 
   return useMemo(
@@ -107,7 +111,7 @@ export function useTodos(filters: TodoSearch) {
         normalizedSearch,
       ),
     }),
-    [normalizedSearch, query],
+    [collection, normalizedSearch, query],
   )
 }
 

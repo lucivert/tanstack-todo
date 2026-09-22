@@ -43,7 +43,14 @@ function Home() {
       <TodoCreateForm
         onCreate={async (description) => {
           setPageError(null)
-          await createTodo({ description })
+          try {
+            await createTodo({ description })
+          } catch (error) {
+            setPageError(
+              error instanceof Error ? error.message : 'Failed to create todo.',
+            )
+            throw error
+          }
         }}
       />
 

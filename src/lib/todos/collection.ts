@@ -23,3 +23,5 @@ export function createTodoCollection(options: {
 }
 
 export const todoCollection = createTodoCollection()
+
+export type TodoCollection = ReturnType<typeof createTodoCollection>
