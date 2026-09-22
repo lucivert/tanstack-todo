@@ -100,8 +100,15 @@ function TodoListItem({ todo, onDelete, onUpdate }: TodoListItemProps) {
             disabled={isDeleting}
             type="button"
             onClick={async () => {
-              setIsDeleting(true)
               setErrorMessage(null)
+
+              const confirmed = window.confirm(
+                'Are you sure you wish to delete this todo?',
+              )
+
+              if (!confirmed) return
+
+              setIsDeleting(true)
 
               try {
                 await onDelete(todo.id)
