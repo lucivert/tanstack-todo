@@ -119,17 +119,23 @@ export function useTodos(
   const query = useLiveQuery({
     query: (q) => q.from({ todo: collection }),
   })
+  const todoRows = (query as { data?: typeof query.data }).data ?? []
 
-  return useMemo(
-    () => ({
-      ...query,
-      data: applyTodoFilters(
-        query.data.map((todo) => toPlainTodo(todo as Parameters<typeof toPlainTodo>[0])),
+  const filteredTodos = useMemo(
+    () =>
+      applyTodoFilters(
+        todoRows.map((todo) =>
+          toPlainTodo(todo as Parameters<typeof toPlainTodo>[0]),
+        ),
         normalizedSearch,
       ),
-    }),
-    [collection, normalizedSearch, query],
+    [normalizedSearch, todoRows],
   )
+
+  return {
+    ...query,
+    data: filteredTodos,
+  }
 }
 
 export function getMissingTodoMessage(id: string) {
