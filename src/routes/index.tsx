@@ -13,7 +13,6 @@ import {
 } from '../lib/todos/client'
 import { listTodosServerFn } from '../lib/todos/server-functions'
 import { parseTodoSearch } from '../lib/todos/contracts'
-import type { TodoStatusFilter } from '../lib/todos/schema'
 
 export const Route = createFileRoute('/')({
   head: () => ({
@@ -64,7 +63,7 @@ function Home() {
           void navigate({
             search: (previous) => ({
               ...previous,
-              status: value as TodoStatusFilter,
+              status: value,
             }),
             replace: true,
           })

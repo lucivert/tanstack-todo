@@ -9,18 +9,19 @@ import {
   parseTodoSearch,
 } from './contracts'
 import { todoCollection } from './collection'
-import { toPlainTodo, todoRepository, type TodoRepository } from './repository'
+import { toPlainTodo, todoRepository } from './repository'
 import {
   createTodoServerFn,
   deleteTodoServerFn,
   listTodosServerFn,
   updateTodoServerFn,
 } from './server-functions'
-import {
-  type CreateTodoInput,
-  type TodoSearch,
-  type UpdateTodoInput,
+import type {
+  CreateTodoInput,
+  TodoSearch,
+  UpdateTodoInput,
 } from './schema'
+import type { TodoRepository } from './repository'
 
 export async function listTodos(
   input: TodoSearch,
@@ -101,12 +102,10 @@ export function useTodos(filters: TodoSearch) {
   return useMemo(
     () => ({
       ...query,
-      data: query.data
-        ? applyTodoFilters(
-            query.data.map((todo) => toPlainTodo(todo as Parameters<typeof toPlainTodo>[0])),
-            normalizedSearch,
-          )
-        : [],
+      data: applyTodoFilters(
+        query.data.map((todo) => toPlainTodo(todo as Parameters<typeof toPlainTodo>[0])),
+        normalizedSearch,
+      ),
     }),
     [normalizedSearch, query],
   )

@@ -1,12 +1,13 @@
 import { applyTodoFilters } from './contracts'
 import { createTodoCollection, todoCollection } from './collection'
-import { todoSchema, type Todo, type TodoSearch } from './schema'
+import { todoSchema } from './schema'
+import type { Todo, TodoSearch } from './schema'
 
 export interface TodoRepository {
-  list(filters: TodoSearch): Promise<Todo[]>
-  getById(id: string): Promise<Todo | undefined>
-  save(todo: Todo): Promise<Todo>
-  remove(id: string): Promise<void>
+  list: (filters: TodoSearch) => Promise<Todo[]>
+  getById: (id: string) => Promise<Todo | undefined>
+  save: (todo: Todo) => Promise<Todo>
+  remove: (id: string) => Promise<void>
 }
 
 type TodoCollection = ReturnType<typeof createTodoCollection>
@@ -25,15 +26,14 @@ export function createCollectionTodoRepository(
   collection: TodoCollection = todoCollection,
 ): TodoRepository {
   return {
-    async list(filters) {
-      return applyTodoFilters(collection.toArray.map((todo) => toPlainTodo(todo)), filters)
-    },
-    async getById(id) {
+    list: async (filters) =>
+      applyTodoFilters(collection.toArray.map((todo) => toPlainTodo(todo)), filters),
+    getById: async (id) => {
       const existingTodo = collection.state.get(id)
 
       return existingTodo ? toPlainTodo(existingTodo) : undefined
     },
-    async save(todo) {
+    save: async (todo) => {
       const existingTodo = collection.state.get(todo.id)
       const transaction = existingTodo
         ? collection.update(todo.id, (draft) => {
@@ -48,7 +48,7 @@ export function createCollectionTodoRepository(
 
       return todo
     },
-    async remove(id) {
+    remove: async (id) => {
       const transaction = collection.delete(id)
       await transaction.isPersisted.promise
     },

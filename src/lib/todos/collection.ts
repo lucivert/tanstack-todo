@@ -1,9 +1,5 @@
-import {
-  createCollection,
-  localStorageCollectionOptions,
-  type StorageApi,
-  type StorageEventApi,
-} from '@tanstack/react-db'
+import { createCollection, localStorageCollectionOptions } from '@tanstack/react-db'
+import type { StorageApi, StorageEventApi } from '@tanstack/react-db'
 
 import { todoSchema } from './schema'
 

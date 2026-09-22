@@ -6,12 +6,13 @@ import {
   todoSchema,
   todoSearchSchema,
   updateTodoInputSchema,
-  type CreateTodoInput,
-  type DeleteTodoInput,
-  type Todo,
-  type TodoSearch,
-  type TodoStatus,
-  type UpdateTodoInput,
+} from './schema'
+import type {
+  CreateTodoInput,
+  DeleteTodoInput,
+  Todo,
+  TodoSearch,
+  UpdateTodoInput,
 } from './schema'
 
 export class TodoNotFoundError extends Error {
@@ -22,7 +23,7 @@ export class TodoNotFoundError extends Error {
 }
 
 export function getTodoNotFoundMessage(id: string) {
-  return `Todo \"${id}\" was not found.`
+  return `Todo "${id}" was not found.`
 }
 
 export function normalizeTodoDescription(description: string) {
@@ -84,7 +85,7 @@ export function buildUpdatedTodo(
   return todoSchema.parse({
     ...parsed.existingTodo,
     description: normalizeTodoDescription(parsed.description),
-    status: parsed.status as TodoStatus,
+    status: parsed.status,
     updatedAt: nextUpdatedAt(
       parsed.existingTodo.updatedAt,
       options.now ?? new Date(),
