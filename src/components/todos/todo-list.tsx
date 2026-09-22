@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import type { Todo, TodoStatus } from '../../lib/todos/schema'
 
@@ -66,6 +66,13 @@ function TodoListItem({ todo, onDelete, onUpdate }: TodoListItemProps) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [isSaving, setIsSaving] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
+
+  useEffect(() => {
+    if (!isEditing) {
+      setDescription(todo.description)
+      setStatus(todo.status)
+    }
+  }, [isEditing, todo.description, todo.status])
 
   return (
     <article className="panel todo-card">
