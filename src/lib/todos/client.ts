@@ -76,22 +76,38 @@ export async function deleteTodo(
 
 export function useTodoHydration(collection: TodoCollection = todoCollection) {
   const [isHydrated, setIsHydrated] = useState(false)
+  const [hydrationError, setHydrationError] = useState<Error | null>(null)
 
   useEffect(() => {
     let isActive = true
 
-    void collection.preload().finally(() => {
-      if (isActive) {
-        setIsHydrated(true)
-      }
-    })
+    void collection
+      .preload()
+      .then(() => {
+        if (isActive) {
+          setIsHydrated(true)
+          setHydrationError(null)
+        }
+      })
+      .catch((error: unknown) => {
+        if (isActive) {
+          setHydrationError(
+            error instanceof Error
+              ? error
+              : new Error('Failed to load persisted todos.'),
+          )
+        }
+      })
 
     return () => {
       isActive = false
     }
   }, [collection])
 
-  return isHydrated
+  return {
+    isHydrated,
+    hydrationError,
+  }
 }
 
 export function useTodos(

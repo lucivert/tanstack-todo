@@ -34,7 +34,7 @@ export const Route = createFileRoute('/')({
 function Home() {
   const navigate = Route.useNavigate()
   const { filters } = Route.useLoaderData()
-  const isHydrated = useTodoHydration()
+  const { hydrationError, isHydrated } = useTodoHydration()
   const todosQuery = useTodos(filters)
   const [pageError, setPageError] = useState<string | null>(null)
 
@@ -76,6 +76,12 @@ function Home() {
           })
         }}
       />
+
+      {hydrationError ? (
+        <p className="error-message" role="alert">
+          {hydrationError.message}
+        </p>
+      ) : null}
 
       {pageError ? (
         <p className="error-message" role="alert">
