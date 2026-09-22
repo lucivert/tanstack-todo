@@ -1,0 +1,275 @@
+:root {
+  color-scheme: light;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', sans-serif;
+  background: #f3f7fb;
+  color: #132238;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, #eef6ff, transparent 28%),
+    linear-gradient(180deg, #f7fbff 0%, #eef4fb 100%);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app-shell {
+  width: min(72rem, calc(100% - 1.5rem));
+  margin: 0 auto;
+  padding: 2rem 0 4rem;
+}
+
+.hero {
+  padding: 2rem 0 1rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #3f6db1;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.1;
+}
+
+.hero-copy {
+  max-width: 42rem;
+  margin: 1rem 0 0;
+  color: #3c546f;
+}
+
+.page-shell {
+  margin-top: 1.5rem;
+}
+
+.stack-lg {
+  display: grid;
+  gap: 1rem;
+}
+
+.panel {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(70, 106, 153, 0.16);
+  border-radius: 1rem;
+  box-shadow: 0 18px 45px rgba(26, 62, 104, 0.08);
+  padding: 1rem;
+}
+
+.controls-grid,
+.create-form,
+.edit-grid,
+.todo-card-header,
+.button-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.controls-grid,
+.create-form,
+.edit-grid {
+  align-items: end;
+  flex-wrap: wrap;
+}
+
+.todo-card-header {
+  justify-content: space-between;
+  align-items: start;
+}
+
+.button-row {
+  flex-wrap: wrap;
+  justify-content: end;
+}
+
+.field {
+  display: grid;
+  gap: 0.375rem;
+  min-width: 10rem;
+  color: #244261;
+  font-weight: 600;
+}
+
+.field span {
+  font-size: 0.95rem;
+}
+
+.field-grow {
+  flex: 1 1 18rem;
+}
+
+.input {
+  width: 100%;
+  min-height: 2.9rem;
+  border: 1px solid #c7d6e6;
+  border-radius: 0.85rem;
+  padding: 0.75rem 0.9rem;
+  background: white;
+}
+
+.input:focus {
+  outline: 2px solid #7bb1ff;
+  outline-offset: 1px;
+}
+
+.button {
+  min-height: 2.9rem;
+  border: 1px solid #c5d5e7;
+  border-radius: 0.85rem;
+  padding: 0.7rem 1rem;
+  background: white;
+  color: #14314f;
+}
+
+.button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.button-primary {
+  border-color: #245ec5;
+  background: #245ec5;
+  color: white;
+}
+
+.button-danger {
+  border-color: #cf4d61;
+  color: #9c2038;
+}
+
+.todo-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.todo-card h2,
+.empty-state h2 {
+  margin: 0.25rem 0 0;
+  font-size: 1.1rem;
+}
+
+.todo-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0 0;
+}
+
+.todo-meta dt {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #4d6682;
+}
+
+.todo-meta dd {
+  margin: 0.2rem 0 0;
+  color: #203a57;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  margin: 0;
+  border-radius: 999px;
+  padding: 0.28rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.status-to-do {
+  background: #e7f0ff;
+  color: #2558b8;
+}
+
+.status-in-progress {
+  background: #fff3dd;
+  color: #a8690b;
+}
+
+.status-done {
+  background: #dff6e8;
+  color: #1e7a46;
+}
+
+.empty-state {
+  text-align: center;
+  color: #4d6682;
+}
+
+.error-message {
+  margin: 0.75rem 0 0;
+  color: #b4233d;
+  font-weight: 700;
+}
+
+.skeleton-card {
+  min-height: 10rem;
+  background:
+    linear-gradient(90deg, rgba(234, 241, 249, 0.85), rgba(255, 255, 255, 0.95), rgba(234, 241, 249, 0.85));
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    width: min(100%, calc(100% - 1rem));
+    padding-top: 1.25rem;
+  }
+
+  .panel {
+    padding: 0.9rem;
+  }
+
+  .controls-grid,
+  .create-form,
+  .edit-grid,
+  .todo-card-header,
+  .button-row {
+    flex-direction: column;
+  }
+
+  .button-row,
+  .field,
+  .field-grow {
+    width: 100%;
+  }
+
+  .todo-meta {
+    grid-template-columns: 1fr;
+  }
+}
